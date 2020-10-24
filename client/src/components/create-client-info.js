@@ -161,7 +161,6 @@ export default class CreatClientInfo extends Component {
 	render() {
 		return (
 			<div className="containers">
- 			<h1>Create Client Info</h1>
  			<form onSubmit={this.onSubmit}>
  			<label>Upload Csv: </label>&nbsp;<span className="error">*</span>
  				<div className="form-group">
