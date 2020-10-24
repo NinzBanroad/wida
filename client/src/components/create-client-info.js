@@ -12,9 +12,17 @@ const GetFormattedDate = (date) => {
 		return year + "-" + month + "-" + day
 	}
 
-const GetFormattedDateNextDay = (date) => {
+const GetFormattedDateYesterday = (date) => {
 		let month = date.getMonth() + 1
-		let day = date.getDate() + 2
+		let day = date.getDate() -1
+		let year = date.getFullYear()
+
+		return year + "-" + month + "-" + day
+	}
+
+const GetFormattedDateTomorrow = (date) => {
+		let month = date.getMonth() + 1
+		let day = date.getDate() + 1
 		let year = date.getFullYear()
 
 		return year + "-" + month + "-" + day
@@ -143,7 +151,7 @@ export default class CreatClientInfo extends Component {
 	  	  } else {
 	  	  			this.setState({
 		  	  		isLoading: false,
-		  	  		error: `Can't fetch weather from that date! Please change date from ${GetFormattedDate(new Date())} until ${GetFormattedDateNextDay(new Date())}`
+		  	  		error: `Can't fetch weather from that date! Please select from ${GetFormattedDateYesterday(new Date())} to  ${GetFormattedDateTomorrow(new Date())} `
 	  	  	      })
 	  	        }
 	  	  	}
