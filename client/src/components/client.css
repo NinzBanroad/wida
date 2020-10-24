@@ -1,0 +1,14 @@
+.containers {
+    background-color: #A2A2A1FF;
+    padding: 20px 40px;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 7px -8px 11px -5px rgba(#195190FF);
+    width:40%;
+    margin :5% 0 0 30%;
+    border-radius: 8px;
+}
+
+.error {
+   color: red
+}
