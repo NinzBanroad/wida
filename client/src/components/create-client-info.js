@@ -12,21 +12,6 @@ const GetFormattedDate = (date) => {
 		return year + "-" + month + "-" + day
 	}
 
-const GetFormattedDateYesterday = (date) => {
-		let month = date.getMonth() + 1
-		let day = date.getDate() -1
-		let year = date.getFullYear()
-
-		return year + "-" + month + "-" + day
-	}
-
-const GetFormattedDateTomorrow = (date) => {
-		let month = date.getMonth() + 1
-		let day = date.getDate() + 1
-		let year = date.getFullYear()
-
-		return year + "-" + month + "-" + day
-	}
 
 const ConvertCsv = (csv) => {
     let lines = [];
@@ -115,17 +100,20 @@ export default class CreatClientInfo extends Component {
 		  let city = this.state.csv[i].["location.city"]
 		  let number = this.state.csv[i].phone		
 
-		  axios.get(`https://api.weatherapi.com/v1/forecast.json?key=ad05d6c949974ef789c25002202310&q=${this.state.csv[i].["location.city"]}&days=10`)
+		  axios.get(`https://api.weatherapi.com/v1/forecast.json?key=ad05d6c949974ef789c25002202310&q=${this.state.csv[i].["location.city"]}&dt=${date}`)
 	  	  .then(res => {
-	  	  	let _date = res.data.forecast.forecastday
+	  	  
+	  	  	if(res.data.forecast.forecastday[0] === undefined) {
+	  	  		this.setState({
+		  	  		isLoading: false,
+		  	  		error: ' date should be between today and next 14 day'
+	  	  	      })
+	  	  	}else {
 
-	  	  	for (var i = 0; i < _date.length; i++) {
-	  	  			
-	  	  	if(_date[i].date === date){
-	  	  		let max = res.data.forecast.forecastday[0].day.maxtemp_c
-		  		let min = res.data.forecast.forecastday[0].day.mintemp_c
-		  		let avg = res.data.forecast.forecastday[0].day.avgtemp_c
-		  		let condition = res.data.forecast.forecastday[0].day.condition.text
+  	  		let max = res.data.forecast.forecastday[0].day.maxtemp_c
+	  		let min = res.data.forecast.forecastday[0].day.mintemp_c
+	  		let avg = res.data.forecast.forecastday[0].day.avgtemp_c
+	  		let condition = res.data.forecast.forecastday[0].day.condition.text
 
 
 	  		let data = {
@@ -147,22 +135,13 @@ export default class CreatClientInfo extends Component {
             		window.location = '/'
             	}
              })
-            break;
-	  	  } else {
-	  	  			this.setState({
-		  	  		isLoading: false,
-		  	  		error: `Can't fetch weather from that date! Please select from ${GetFormattedDateYesterday(new Date())} to  ${GetFormattedDateTomorrow(new Date())} `
-	  	  	      })
-	  	        }
 	  	  	}
 	  	
-	  	 })
-
-	  }
+	   })
 
 
-	}
-
+	 }
+   }
 		
   }
 

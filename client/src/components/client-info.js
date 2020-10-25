@@ -18,7 +18,9 @@ export default class ClientInfo extends Component {
 
 		this.state = {
 			isLoading: false,
-			client: []
+			isLoadingDelete: '',
+			client: [],
+			index: ''
 		}
 
 		this.onDeleteClient = this.onDeleteClient.bind(this)
@@ -34,11 +36,13 @@ export default class ClientInfo extends Component {
   	 })
   }
 
-  onDeleteClient(e, id) {
-
+  onDeleteClient(e, i, id) {
+  	
+  	 this.setState({ index: i })
   	 axios.delete('/client/delete/'+id)
   	 .then(res => {
   	 		this.setState({
+  			isLoadingDelete: true,
   			client: this.state.client.filter(data => data._id !== id)
   		})
   	 })
@@ -70,7 +74,7 @@ export default class ClientInfo extends Component {
 				  			 {
 			  	this.state.client.map((data, i) =>
 			  	  <tr>
-			      <td key={i}>{i}</td>
+			      <td key={i}>{i+1}</td>
 			      <td >{data.name}</td>
 			      <td>{data.number}</td>
 			      <td>{data.city}</td>
@@ -79,7 +83,23 @@ export default class ClientInfo extends Component {
 			        <td>{data.avg}&nbsp;°c</td>
 			       <td>{data.condition}</td>
 			      <td>
- 					<button onClick={(e) => this.onDeleteClient(e, data._id)} className="btn btn-danger">Delete</button>
+ 					<button
+ 					 onClick={(e) => this.onDeleteClient(e, i, data._id)}
+ 					  className="btn btn-danger">
+ 					  Delete
+ 					  {
+
+ 					  }
+ 					  {
+ 					   	this.state.index === i ? (
+			              <span className="spinner-border spinner-border-sm ml-5"
+             			role="status"
+                        aria-hidden="true">
+		     			</span>
+			            ) : (
+      						<span></span>
+           			 )}
+ 					</button>
  					</td>
 			  	  </tr>
 			  	)
